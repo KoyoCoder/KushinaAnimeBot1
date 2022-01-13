@@ -64,7 +64,7 @@ RUN apt update && apt upgrade -y && \
 # Pypi package Repo upgrade
 RUN pip3 install --upgrade pip setuptools
 
-RUN git clone -b Stable https://github.com/StarkBug/KushianAnimeBot /root/KushinaAnimeBot
+RUN git clone https://Koyocoder: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@github.com/Koyocoder/KushinaAnimeBot1.git
 WORKDIR /root/KushinaAnimeBot
 
 COPY ./KushianAnimeBot/sample_config.py ./KushianAnimeBot/config.py* /root/KushianAnimeBot/KushinaAnimeBot/
