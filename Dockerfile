@@ -1,5 +1,5 @@
 # We're using Debian Slim Buster image
-FROM python:3.9.7-slim-buster
+FROM python:3.8.5-slim-buster
 
 ENV PIP_NO_CACHE_DIR 1
 
@@ -64,10 +64,10 @@ RUN apt update && apt upgrade -y && \
 # Pypi package Repo upgrade
 RUN pip3 install --upgrade pip setuptools
 
-RUN git clone -b Stable https://github.com/StarkBug/KushianAnimeBot /app/KushinaAnimeBot
-WORKDIR /app/KushinaAnimeBot
+RUN git clone -b Stable https://github.com/StarkBug/KushianAnimeBot /root/KushinaAnimeBot
+WORKDIR /root/KushinaAnimeBot
 
-COPY ./KushianAnimeBot/sample_config.py ./KushianAnimeBot/config.py* /app/KushianAnimeBot/
+COPY ./KushianAnimeBot/sample_config.py ./KushianAnimeBot/config.py* /root/KushianAnimeBot/KushinaAnimeBot/
 
 ENV PATH="/home/bot/bin:$PATH"
 
