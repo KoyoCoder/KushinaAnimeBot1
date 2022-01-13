@@ -62,17 +62,8 @@ RUN apt update && apt upgrade -y && \
     && rm -rf /var/lib/apt/lists /var/cache/apt/archives /tmp
 
 # Pypi package Repo upgrade
+WORKDIR . 
+COPY . .
 RUN pip3 install --upgrade pip setuptools
-
-RUN git clone https://Koyocoder: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@github.com/Koyocoder/KushinaAnimeBot1.git
-WORKDIR /root/KushinaAnimeBot
-
-COPY ./KushianAnimeBot/sample_config.py ./KushianAnimeBot/config.py* /root/KushianAnimeBot/KushinaAnimeBot/
-
-ENV PATH="/home/bot/bin:$PATH"
-
-# Install requirements
 RUN pip3 install -U -r requirements.txt
-
-# Starting Worker
 CMD ["python3","-m","KushianAnimeBot"]
