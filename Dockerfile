@@ -1,9 +1,6 @@
 # We're using Debian Slim Buster image
 FROM python:3.8.5-slim-buster
-
-ENV PIP_NO_CACHE_DIR 1
-
-RUN sed -i.bak 's/us-west-2\.ec2\.//' /etc/apt/sources.list
+WORKDIR .
 
 # Installing Required Packages
 RUN apt update && apt upgrade -y && \
@@ -33,10 +30,7 @@ RUN apt update && apt upgrade -y && \
     libcurl4-openssl-dev \
     libxml2-dev \
     libxslt1-dev \
-    python3-pip \
-    python3-requests \
     python3-sqlalchemy \
-    python3-tz \
     python3-aiohttp \
     openssl \
     pv \
@@ -58,12 +52,10 @@ RUN apt update && apt upgrade -y && \
     xvfb \
     unzip \
     libopus0 \
-    libopus-dev \
-    && rm -rf /var/lib/apt/lists /var/cache/apt/archives /tmp
-
-# Pypi package Repo upgrade
-WORKDIR . 
-COPY . .
+    libopus-dev 
+    
+COPY requirements.txt .
 RUN pip3 install --upgrade pip setuptools
 RUN pip3 install -U -r requirements.txt
+COPY . .
 CMD ["python3","-m","KushianAnimeBot"]
