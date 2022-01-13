@@ -58,4 +58,4 @@ COPY requirements.txt .
 RUN pip3 install --upgrade pip setuptools
 RUN pip3 install -U -r requirements.txt
 COPY . .
-CMD ["python3","-m","KushianAnimeBot"]
+CMD ["python3","-m","KushinaAnimeBot"]
