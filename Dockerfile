@@ -1,78 +1,60 @@
-# We're using Debian Slim Buster image
-FROM python:3.9.7-slim-buster
+FROM kalilinux/kali-rolling
+ARG DEBIAN_FRONTEND=noninteractive
+RUN apt-get update && apt upgrade -y && apt-get install sudo -y
+RUN touch ~/.hushlogin
 
-ENV PIP_NO_CACHE_DIR 1
-
-RUN sed -i.bak 's/us-west-2\.ec2\.//' /etc/apt/sources.list
-
-# Installing Required Packages
-RUN apt update && apt upgrade -y && \
-    apt install --no-install-recommends -y \
-    debian-keyring \
-    debian-archive-keyring \
+RUN apt-get install -y\
+    coreutils \
     bash \
+    nodejs \
     bzip2 \
     curl \
     figlet \
+    gcc \
+    g++ \
     git \
     util-linux \
-    libffi-dev \
+    libevent-dev \
     libjpeg-dev \
-    libjpeg62-turbo-dev \
+    libffi-dev \
+    libpq-dev \
     libwebp-dev \
-    linux-headers-amd64 \
-    musl-dev \
+    libxml2 \
+    libxml2-dev \
+    libxslt-dev \
     musl \
     neofetch \
-    php-pgsql \
-    python3-lxml \
+    libcurl4-openssl-dev \
     postgresql \
     postgresql-client \
-    python3-psycopg2 \
-    libpq-dev \
-    libcurl4-openssl-dev \
-    libxml2-dev \
-    libxslt1-dev \
-    python3-pip \
-    python3-requests \
-    python3-sqlalchemy \
-    python3-tz \
-    python3-aiohttp \
+    postgresql-server-dev-all \
     openssl \
-    pv \
-    jq \
+    mediainfo \
     wget \
     python3 \
     python3-dev \
+    python3-pip \
     libreadline-dev \
-    libyaml-dev \
-    gcc \
+    zipalign \
     sqlite3 \
-    libsqlite3-dev \
-    sudo \
-    zlib1g \
     ffmpeg \
-    libssl-dev \
-    libgconf-2-4 \
-    libxi6 \
-    xvfb \
-    unzip \
-    libopus0 \
-    libopus-dev \
-    && rm -rf /var/lib/apt/lists /var/cache/apt/archives /tmp
+    libsqlite3-dev \
+    axel \
+    zlib1g-dev \
+    recoverjpeg \
+    zip \
+    megatools \
+    libfreetype6-dev \
+    procps \
+    policykit-1
 
-# Pypi package Repo upgrade
-RUN pip3 install --upgrade pip setuptools
+#Gemt Some Fumks
+RUN axel https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb && apt install -y ./google-chrome-stable_current_amd64.deb && rm google-chrome-stable_current_amd64.deb
+RUN axel https://chromedriver.storage.googleapis.com/88.0.4324.96/chromedriver_linux64.zip && unzip chromedriver_linux64.zip && chmod +x chromedriver && mv -f chromedriver /usr/bin/ && rm chromedriver_linux64.zip
+#Import Gudz
+RUN wget https://raw.githubusercontent.com/StarkBug/KushianAnimeBot/Stable/lightningrun.py
+RUN wget https://raw.githubusercontent.com/StarkBug/KushianAnimeBot/Stable/requirements.txt
+#Start Fumkin
+RUN pip3 install -r requirements.txt
 
-RUN git clone -b Stable https://github.com/StarkBug/KushianAnimeBot /app
-WORKDIR /app
-
-COPY ./KushianAnimeBot/sample_config.py ./KushianAnimeBot/config.py* /app/KushianAnimeBot/
-
-ENV PATH="/home/bot/bin:$PATH"
-
-# Install requirements
-RUN pip3 install -U -r requirements.txt
-
-# Starting Worker
-CMD ["python3","-m","KushianAnimeBot"]
+CMD ["python3","lightningrun.py"]
